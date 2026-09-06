@@ -92,7 +92,10 @@ export default function ScanScreen() {
   const takePhoto = async () => {
     if (!cameraRef.current) return;
 
-    const photo = await cameraRef.current.takePictureAsync();
+     const photo = await cameraRef.current.takePictureAsync({
+       quality: 0.5,
+     });
+
 
     if (photo?.uri) {
       setPhotoUri(photo.uri);
@@ -153,47 +156,44 @@ export default function ScanScreen() {
 
   return (
     <View style={styles.container}>
-      <CameraView ref={cameraRef} style={styles.camera} facing="back">
-        <View style={styles.overlay}>
-          {/* Header */}
-          <View style={styles.header}>
-            <Pressable style={styles.backButton} onPress={() => router.back()}>
-              <ArrowLeft size={22} color="#FFFFFF" />
-            </Pressable>
-          </View>
+      <CameraView ref={cameraRef} style={styles.camera} facing="back" />
 
-          {/* Instructions */}
-          <View style={styles.instructions}>
-            <Text style={styles.title}>Scan your meal</Text>
-
-            <Text style={styles.subtitle}>
-              Place your food inside the frame
-            </Text>
-          </View>
-
-          {/* Food frame */}
-          <View style={styles.frame}>
-            <View style={[styles.corner, styles.topLeft]} />
-            <View style={[styles.corner, styles.topRight]} />
-            <View style={[styles.corner, styles.bottomLeft]} />
-            <View style={[styles.corner, styles.bottomRight]} />
-          </View>
-
-          {/* Bottom controls */}
-          <View style={styles.bottomControls}>
-            <Pressable style={styles.galleryButton} onPress={pickFromGallery}>
-              <ImageIcon size={24} color="#FFFFFF" />
-              <Text style={styles.galleryText}>Photos</Text>
-            </Pressable>
-
-            <Pressable style={styles.captureButton} onPress={takePhoto}>
-              <View style={styles.captureInner} />
-            </Pressable>
-
-            <View style={styles.placeholder} />
-          </View>
+      <View style={styles.overlay}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Pressable style={styles.backButton} onPress={() => router.back()}>
+            <ArrowLeft size={22} color="#FFFFFF" />
+          </Pressable>
         </View>
-      </CameraView>
+
+        {/* Instructions */}
+        <View style={styles.instructions}>
+          <Text style={styles.title}>Scan your meal</Text>
+          <Text style={styles.subtitle}>Place your food inside the frame</Text>
+        </View>
+
+        {/* Food frame */}
+        <View style={styles.frame}>
+          <View style={[styles.corner, styles.topLeft]} />
+          <View style={[styles.corner, styles.topRight]} />
+          <View style={[styles.corner, styles.bottomLeft]} />
+          <View style={[styles.corner, styles.bottomRight]} />
+        </View>
+
+        {/* Bottom controls */}
+        <View style={styles.bottomControls}>
+          <Pressable style={styles.galleryButton} onPress={pickFromGallery}>
+            <ImageIcon size={24} color="#FFFFFF" />
+            <Text style={styles.galleryText}>Photos</Text>
+          </Pressable>
+
+          <Pressable style={styles.captureButton} onPress={takePhoto}>
+            <View style={styles.captureInner} />
+          </Pressable>
+
+          <View style={styles.placeholder} />
+        </View>
+      </View>
     </View>
   );
 }
@@ -285,11 +285,11 @@ const styles = StyleSheet.create({
   },
 
   camera: {
-    flex: 1,
+    ...StyleSheet.absoluteFill,
   },
 
   overlay: {
-    flex: 1,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(0,0,0,0.35)",
     paddingHorizontal: 22,
   },
