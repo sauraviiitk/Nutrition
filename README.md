@@ -14,11 +14,11 @@ Built with Expo (React Native) + Expo Router API routes.
 
 ## Features
 
-- 📸 **Scan a meal** — snap a photo, AI identifies the food and estimates macros
-- ✍️ **Describe a meal** — type what you ate instead, for meals that aren't easy to photograph
-- ✏️ **Edit & recalculate** — correct a wrong item name or portion size, and the AI re-estimates
-- 📊 **Daily dashboard** — track calories and macros against a personal goal
-- 📓 **Meal diary** — see everything logged by breakfast/lunch/dinner/snack
+- **Scan a meal** — snap a photo, AI identifies the food and estimates macros
+- **Describe a meal** — type what you ate instead, for meals that aren't easy to photograph
+- **Edit & recalculate** — correct a wrong item name or portion size, and the AI re-estimates
+- **Daily dashboard** — track calories and macros against a personal goal
+- **Meal diary** — see everything logged by breakfast/lunch/dinner/snack
 
 ## Tech stack
 
