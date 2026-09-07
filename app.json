@@ -3,13 +3,9 @@
     "name": "nutrition",
     "slug": "nutrition",
     "version": "1.0.0",
+    "scheme": "nutrition",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -21,7 +17,6 @@
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "permissions": ["CAMERA", "READ_MEDIA_IMAGES"]
     },
     "web": {
