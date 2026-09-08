@@ -6,8 +6,6 @@ Built with Expo (React Native) + Expo Router API routes.
 
 ## Try it now
 
-## Try it now
-
 Open this link on your phone (requires the free [Expo Go](https://expo.dev/go) app):
 
 **[Open live demo](https://expo.dev/preview/update?message=Fix+app.json+schema+errors&updateRuntimeVersion=1.0.0&createdAt=2026-09-07T10%3A01%3A56.866Z&slug=exp&projectId=0ea2f3a9-23f1-43f7-8489-9232a130799a&group=bd56e5e7-d6b9-4fb5-9f16-d90d2b032ebe)**
@@ -16,13 +14,10 @@ Open this link on your phone (requires the free [Expo Go](https://expo.dev/go) a
 
 [Live demo link]("https://u.expo.dev/0ea2f3a9-23f1-43f7-8489-9232a130799a")
 
-<img width="213" height="436" alt="Home-Tab" src="https://github.com/user-attachments/assets/4da98143-b0be-47f0-b8ee-f1947f3e3ad4" />
+| Home | Scan | Diary |
+|---|---|---|
+| ![Home tab](https://private-user-images.githubusercontent.com/265479884/643230895-4da98143-b0be-47f0-b8ee-f1947f3e3ad4.png) | ![Scan tab](https://private-user-images.githubusercontent.com/265479884/643230914-e47649d9-801f-4696-adb5-9b48c099079b.png) | ![Diary tab](https://private-user-images.githubusercontent.com/265479884/643230919-9810a15a-f579-4279-9a19-eedb65bc9075.png) |
 
-<img width="215" height="437" alt="Home-Tab-2" src="https://github.com/user-attachments/assets/2af9062f-508c-4f21-8750-09a861602224" />
-
-<img width="216" height="439" alt="Scan-Tab" src="https://github.com/user-attachments/assets/e47649d9-801f-4696-adb5-9b48c099079b" />
-
-<img width="217" height="442" alt="Diary-Tab" src="https://github.com/user-attachments/assets/9810a15a-f579-4279-9a19-eedb65bc9075" />
 
 ## Features
 
