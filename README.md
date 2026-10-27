@@ -100,11 +100,3 @@ settings.tsx # Calorie goal
 utils/
 mealStorage.ts # AsyncStorage read/write for saved meals
 settingsStorage.ts # AsyncStorage read/write for user goals
-
-## Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup details and how to submit a PR. Check the [Issues](../../issues) tab for open tasks, including some tagged `good first issue`.
-
-## License
-
-MIT
