@@ -10,8 +10,6 @@ An intelligent, privacy-focused nutrition companion built with **Expo**, **React
 [![Expo](https://img.shields.io/badge/Expo-SDK_57-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Gemini](https://img.shields.io/badge/Google_Gemini-Vision_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](./CONTRIBUTING.md)
 
 <br/>
 
@@ -213,14 +211,4 @@ Re-calculates nutritional values for a single item after user corrections.
    - Added `getTodayDateKey()` using local device calendar days (`YYYY-MM-DD`) instead of UTC `toISOString()`.
    - Ensures meals logged late at night or across time zones reliably appear on the correct day's diary and dashboard.
 
----
 
-## 🤝 Contributing
-
-Contributions, feedback, and pull requests are warmly welcomed! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on branching strategy, coding standards, and how to submit a PR.
-
----
-
-## 📄 License
-
-This project is open source and distributed under the [MIT License](./LICENSE).
