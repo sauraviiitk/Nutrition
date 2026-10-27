@@ -1,9 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 export async function POST(request: Request) {
   try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return Response.json(
+        { error: "GEMINI_API_KEY is not configured" },
+        { status: 500 }
+      );
+    }
+
     const { name, portion_estimate } = await request.json();
 
     if (!name || !portion_estimate) {
@@ -13,6 +19,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
       model: "gemini-flash-lite-latest",
       contents: [
@@ -35,15 +42,33 @@ Respond ONLY with valid JSON, no markdown fences, no preamble, in this exact sha
           ],
         },
       ],
+      config: {
+        responseMimeType: "application/json",
+      },
     });
 
-    const text = response.text.trim();
-    const clean = text.replace(/```json|```/g, "").trim();
+    const text = response.text?.trim();
+    if (!text) {
+      return Response.json(
+        { error: "No response text received from AI model" },
+        { status: 502 }
+      );
+    }
+
+    let clean = text.replace(/```json/gi, "").replace(/```/g, "").trim();
+    const jsonMatch = clean.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      clean = jsonMatch[0];
+    }
     const macros = JSON.parse(clean);
 
     return Response.json(macros);
   } catch (err) {
-    console.error(err);
-    return Response.json({ error: "Failed to recalculate" }, { status: 500 });
+    console.error("Error recalculating item:", err);
+    return Response.json(
+      { error: err instanceof Error ? err.message : "Failed to recalculate" },
+      { status: 500 }
+    );
   }
 }
+

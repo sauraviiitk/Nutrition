@@ -16,6 +16,7 @@ import {
   MealType,
   SavedMeal,
   deleteMeal,
+  getTodayDateKey,
 } from "../../utils/mealStorage";
 
 const MEAL_META: Record<MealType, { label: string; emoji: string }> = {
@@ -39,7 +40,7 @@ function formatDate(date: Date) {
 export default function DiaryScreen() {
   const [meals, setMeals] = useState<SavedMeal[]>([]);
   const today = new Date();
-  const todayKey = today.toISOString().split("T")[0];
+  const todayKey = getTodayDateKey(today);
 
   useFocusEffect(
     useCallback(() => {

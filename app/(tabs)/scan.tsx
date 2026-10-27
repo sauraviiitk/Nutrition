@@ -1,4 +1,4 @@
-import { Camera, CameraView } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
@@ -18,19 +18,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const API_BASE = process.env.EXPO_PUBLIC_API_BASE ?? "http://localhost:8081";
 
 export default function ScanScreen() {
-  const [cameraPermission, setCameraPermission] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [scanning, setScanning] = useState(false);
   const cameraRef = useRef<CameraView>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const openCamera = async () => {
-    const permission = await Camera.requestCameraPermissionsAsync();
-
-    if (permission.status === "granted") {
-      setCameraPermission(true);
-    }
+    await requestPermission();
   };
+
 
   const usePhoto = async () => {
     if (!photoUri) return;
@@ -102,7 +99,7 @@ export default function ScanScreen() {
     }
   };
 
-  if (!cameraPermission) {
+  if (!permission?.granted) {
     return (
       <SafeAreaView style={styles.permissionContainer}>
         <Scan size={52} color="#B8D7A8" />

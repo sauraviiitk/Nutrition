@@ -18,7 +18,7 @@ const API_BASE = process.env.EXPO_PUBLIC_API_BASE ?? "http://localhost:8081";
 export default function ManualEntryScreen() {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<String | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
     if (!description.trim()) return;

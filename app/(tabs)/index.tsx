@@ -4,7 +4,7 @@ import { Link, router, useFocusEffect } from "expo-router";
 import { Menu, Scan } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import { getMealsByDate, SavedMeal, MealType } from "../../utils/mealStorage";
+import { getMealsByDate, SavedMeal, MealType, getTodayDateKey } from "../../utils/mealStorage";
 import { getCalorieGoal } from "../../utils/settingsStorage";
 
 const MEAL_META: Record<MealType, { label: string; emoji: string }> = {
@@ -17,7 +17,7 @@ const MEAL_META: Record<MealType, { label: string; emoji: string }> = {
 export default function HomeScreen() {
   const [meals, setMeals] = useState<SavedMeal[]>([]);
   const [calorieGoal, setCalorieGoalState] = useState(2000);
-  const todayKey = new Date().toISOString().split("T")[0];
+  const todayKey = getTodayDateKey();
 
   useFocusEffect(
     useCallback(() => {

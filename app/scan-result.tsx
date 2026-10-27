@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { saveMeal, MealType } from "../utils/mealStorage";
+import { saveMeal, MealType, getTodayDateKey } from "../utils/mealStorage";
 
 type FoodItem = {
   name: string;
@@ -28,7 +28,20 @@ const API_BASE = process.env.EXPO_PUBLIC_API_BASE ?? "http://localhost:8081";
 
 export default function ScanResultScreen() {
   const { result } = useLocalSearchParams<{ result: string }>();
-  const parsed = result ? JSON.parse(result) : null;
+
+  let parsed: {
+    items?: FoodItem[];
+    total?: { calories: number; protein_g: number; carbs_g: number; fat_g: number };
+    confidence?: string;
+  } | null = null;
+
+  try {
+    if (result) {
+      parsed = JSON.parse(result);
+    }
+  } catch (err) {
+    console.error("Failed to parse meal scan result:", err);
+  }
 
   const [items, setItems] = useState<FoodItem[]>(parsed?.items ?? []);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -40,7 +53,31 @@ export default function ScanResultScreen() {
   const [recalcError, setRecalcError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  if (!parsed) return null;
+  if (!parsed) {
+    return (
+      <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
+        <View style={styles.header}>
+          <Pressable onPress={() => router.back()}>
+            <ArrowLeft size={22} color="#F5F5F2" />
+          </Pressable>
+          <Text style={styles.headerTitle}>Meal Breakdown</Text>
+          <View style={{ width: 22 }} />
+        </View>
+        <View style={styles.fallbackContainer}>
+          <Text style={styles.fallbackTitle}>No Meal Data</Text>
+          <Text style={styles.fallbackSubtitle}>
+            We couldn't retrieve the meal analysis. Please try scanning or describing your meal again.
+          </Text>
+          <Pressable
+            style={styles.saveButton}
+            onPress={() => router.replace("/(tabs)/index")}
+          >
+            <Text style={styles.saveButtonText}>Back to Home</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const updateItem = (
     index: number,
@@ -87,10 +124,10 @@ export default function ScanResultScreen() {
 
   const total = items.reduce(
     (acc, item) => ({
-      calories: acc.calories + item.calories,
-      protein_g: acc.protein_g + item.protein_g,
-      carbs_g: acc.carbs_g + item.carbs_g,
-      fat_g: acc.fat_g + item.fat_g,
+      calories: acc.calories + (Number(item.calories) || 0),
+      protein_g: acc.protein_g + (Number(item.protein_g) || 0),
+      carbs_g: acc.carbs_g + (Number(item.carbs_g) || 0),
+      fat_g: acc.fat_g + (Number(item.fat_g) || 0),
     }),
     { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
   );
@@ -102,7 +139,7 @@ export default function ScanResultScreen() {
       await saveMeal({
         id: Date.now().toString(),
         mealType,
-        date: new Date().toISOString().split("T")[0],
+        date: getTodayDateKey(),
         items,
         total,
       });
@@ -119,7 +156,7 @@ export default function ScanResultScreen() {
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()}>
-          <ArrowLeft size={22} color="#1A1A1A" />
+          <ArrowLeft size={22} color="#F5F5F2" />
         </Pressable>
         <Text style={styles.headerTitle}>Meal Breakdown</Text>
         <View style={{ width: 22 }} />
@@ -129,6 +166,7 @@ export default function ScanResultScreen() {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
       >
+
         <ScrollView contentContainerStyle={styles.content}>
           {items.map((item, i) => {
             const isEditing = editingIndex === i;
@@ -163,7 +201,6 @@ export default function ScanResultScreen() {
                       value={item.portion_estimate}
                       onChangeText={(v) => updateItem(i, "portion_estimate", v)}
                       placeholder="Portion size"
-                      autoFocus
                     />
                     <Pressable
                       style={styles.recalcButton}
@@ -267,7 +304,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
-  headerTitle: { fontSize: 17, fontWeight: "600", color: "#1A1A1A" },
+  headerTitle: { fontSize: 17, fontWeight: "600", color: "#F5F5F2" },
+  fallbackContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
+  },
+  fallbackTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#F5F5F2",
+    marginBottom: 8,
+  },
+  fallbackSubtitle: {
+    fontSize: 14,
+    color: "#92958D",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 20,
+  },
   content: { paddingHorizontal: 20, paddingBottom: 40, gap: 12 },
   itemCard: { backgroundColor: "#F7F7F7", borderRadius: 14, padding: 16 },
   itemHeader: {

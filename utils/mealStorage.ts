@@ -40,8 +40,16 @@ export async function getMealsByDate(date: string): Promise<SavedMeal[]> {
   return all.filter((m) => m.date === date);
 }
 
+export function getTodayDateKey(date = new Date()): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export async function deleteMeal(id: string) {
   const existing = await getAllMeals();
   const updated = existing.filter((m) => m.id !== id);
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 }
+
